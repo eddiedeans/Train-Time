@@ -23,19 +23,14 @@ $("#add-train-btn").on("click", function(event) {
   // Grabs user input
   var trainName = $("#train-name-input").val().trim();
   var destination = $("#destination-input").val().trim();
-  var firstTrain = $("#first-train-input").val().trim()
-  var frequency = $("#frequency-input").val().trim();
+  var firstTrainTime = $("#first-train-input").val().trim()
+  var frequency = $("#frequency-input").val().trim()
 
-  var now = moment()
-
-  console.log(now)
-
-  console.log(moment)
   // Creates local "temporary" object for holding train data
   var newTrain = {
     name: trainName,
     destination: destination,
-    firsttraintime: firstTrain,
+    firsttraintime: firstTrainTime,
     frequency: frequency
   };
 
@@ -43,10 +38,10 @@ $("#add-train-btn").on("click", function(event) {
   database.ref().push(newTrain);
 
   // Logs everything to console
-  console.log(newTrain.name);
-  console.log(newTrain.destination);
-  console.log(newTrain.firsttraintime);
-  console.log(newTrain.frequency);
+  // console.log(newTrain.name);
+  // console.log(newTrain.destination);
+  // console.log(newTrain.firsttraintime);
+  // console.log(newTrain.frequency);
 
   // Alert
   alert("Train successfully added");
@@ -66,32 +61,26 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
   // Store everything into a variable.
   var trainName = childSnapshot.val().name;
   var trainDestination = childSnapshot.val().destination;
-  var trainFirstTime = childSnapshot.val().firsttraintime;
+  var firstTrain = childSnapshot.val().firsttraintime;
   var trainFrequency = childSnapshot.val().frequency;
 
-  // Train Info
-  console.log(trainName);
-  console.log(trainDestination);
-  console.log(trainFirstTime);
-  console.log(trainFrequency);
+  var currentTime = moment().format('LT'); 
 
-  // Prettify the train start
-  var trainStarts = moment(trainFirstTime).format('LT')
+  var nextArrival = moment(currentTime, 'HH:mm').add(trainFrequency, 'minutes').format("HH:mm");
 
-  console.log(trainStarts)
+  var minutesAway = moment(currentTime).subtract(nextArrival, "minutes").toDate()
+
+  
+
+  console.log(nextArrival);
+ 
+  console.log(minutesAway);
 
  
   
 
   // Add each train's data into the table
-  $("#employee-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" 
-  + trainFrequency + "</td><td>" +  + "</td>");
+  $("#employee-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + trainFrequency + "</td><td>" + nextArrival + "</td>");
 });
 
-// Example Time Math
-// -----------------------------------------------------------------------------
-// Assume Employee start date of January 1, 2015
-// Assume current date is March 1, 2016
 
-// We know that this is 15 months.
-// Now we will create code in moment.js to confirm that any attempt we use meets this test case
