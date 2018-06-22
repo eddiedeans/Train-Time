@@ -68,19 +68,17 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
   var nextArrival = moment(currentTime, 'HH:mm').add(trainFrequency, 'minutes').format("HH:mm");
 
-  var minutesAway = moment(currentTime).subtract(nextArrival, "minutes").toDate()
+  var minutesAway 
 
-  
-
-  console.log(nextArrival);
- 
   console.log(minutesAway);
+
+
 
  
   
 
   // Add each train's data into the table
-  $("#employee-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + trainFrequency + "</td><td>" + nextArrival + "</td>");
+  $("#employee-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + trainFrequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td>");
 });
 
 
